@@ -137,17 +137,17 @@ function randomAnagram(string) {
 
 const cases = []
 for (let i = 0; i < 500_000; i++) {
-  cases.push({
-    first: randomstr(10),
-    second: randomstr(10),
-  })
+  cases.push([
+    randomstr(10),
+    randomstr(10),
+  ])
 }
 for (let i = 0; i < 500_000; i++) {
   const str = randomstr(10)
-  cases.push({
-    first: str,
-    second: randomAnagram(str),
-  })
+  cases.push([
+    str,
+    randomAnagram(str),
+  ])
 }
 
 function benchmark(algorithm) {
@@ -155,7 +155,7 @@ function benchmark(algorithm) {
 
   let count = 0
   cases.forEach((pair) => {
-    count += algorithm(pair.first, pair.second) ? 1 : 0
+    count += algorithm(...pair) ? 1 : 0
   })
 
   return {
@@ -163,6 +163,7 @@ function benchmark(algorithm) {
     count
   }
 }
+
 
 const sum = benchmark(isAnagramSum)
 console.log(`sum: ${sum.time}ms. anagram count: ${sum.count}`)
